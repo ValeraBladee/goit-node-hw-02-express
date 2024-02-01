@@ -1,14 +1,13 @@
-const { HttpError } = require("../helpers");
+const { HttpError } = require("../helpers/index");
 
 const validateBody = (schema) => {
   const func = (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
-      throw HttpError(400, "missing required name field");
+      return next(HttpError(400, error.message));
     }
     next();
   };
-
   return func;
 };
 
